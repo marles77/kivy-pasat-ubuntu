@@ -1,0 +1,12 @@
+Backup/
+bin/
+Database/
+__pycache__/
+venv/
+.buildozer/
+.git/
+buildozer.spec
+firebase_config.py
+my_log.txt
+requirements1.txt
+requirements_old.txt

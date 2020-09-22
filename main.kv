@@ -1,0 +1,922 @@
+#builder.kv
+#:import Button kivy.uix.button.Button
+#:import Factory kivy.factory.Factory
+#:import window_width __main__.window_width
+#:import window_height __main__.window_height
+
+#colors: black; navy blue 0.078, 0.129, 0.239 (#14213D); orange 0.988, 0.639, 0.067 (#FCA311); gray 0.898, 0.898, 0.898 (#E5E5E5); white
+#:set color_black (0, 0, 0, 1)
+#:set color_white (1, 1, 1, 1)
+#:set color_nblue (0.078, 0.129, 0.239, 1)
+#:set color_orange (0.988, 0.639, 0.067, 1)
+#:set color_gray (0.898, 0.898, 0.898, 1)
+#:set pad_x window_width//20
+#:set pad_y window_height//15
+
+<BigButton>
+    background_color: (0.988, 0.639, 0.067, 1)
+    #border_radius: [10]
+    #bold: True
+    canvas.before:
+        Color:
+            rgba: self.background_color
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            #radius: self.border_radius
+    font_size: '30sp'
+    color: color_black
+
+<ExitButton>:
+    background_color: (1,1,1,1)#(0.078, 0.129, 0.239, 0)
+    #back_color: (0.898, 0.898, 0.898)
+    #border_radius: [10]
+    image: 'Icons/arrow-alt-circle-left-regular.png'
+    #image: 'Icons/caret-left-solid.png'
+    canvas.before:
+        Color:
+            rgba: self.background_color
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            #radius: self.border_radius
+            source: self.image
+    canvas.after:
+        Color:
+            rgba: color_white
+        Line:
+            width: 1.6
+            rounded_rectangle: (self.x, self.y, self.width, self.height, 10)
+    font_size: '16sp'
+    color: color_white
+
+<EscapeButton>:
+    #min_state_time: 2
+    background_color: (0,0,0,0)
+    line_color: (0,0,0,0)
+    font_color: 1,1,1,0.5
+    canvas.before:
+        Color:
+            rgba: self.background_color
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    canvas.after:
+        Color:
+            rgba: self.line_color
+        Line:
+            width: 2.
+            rectangle: (self.x, self.y, self.width, self.height)
+    font_size: '16sp'
+    color: self.font_color
+
+<InfoButton>:
+    background_color: (1,1,1,1)#(0.078, 0.129, 0.239, 1)
+    image: 'Icons/info-solid.png'
+    canvas.before:
+        Color:
+            rgba: self.background_color
+        Ellipse:
+            pos: self.pos
+            size: self.size
+            source: self.image
+    canvas.after:
+        Color:
+            rgba: color_white
+        Line:
+            width: 1.6
+            circle: (self.center_x, self.center_y, min(self.width, self.height)/ 2)
+    font_size: '16sp'
+    bold: True
+    color: color_white
+
+<MainButton>
+    background_color: (0.898, 0.898, 0.898, 1)
+    #border_radius: [(10.0, 10.0), (10.0, 10.0), (10.0, 10.0), (10.0, 10.0)]
+    #bold: True
+    canvas.before:
+        Color:
+            rgba: self.background_color
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            #radius: self.border_radius
+    canvas.after:
+        Color:
+            rgba: color_orange
+        Line:
+            width: 2.
+            rounded_rectangle: (self.x, self.y, self.width, self.height, 10)
+    font_size: '30sp'
+    color: color_black
+
+<TestButton>:
+    background_color: 0,0,0,0
+    line_color: 1,1,1,1
+    font_color: 1,1,1,1
+    canvas.before:
+        Color:
+            rgba: self.background_color
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    canvas.after:
+        Color:
+            rgba: self.line_color
+        Line:
+            width: 2.
+            rectangle: (self.x, self.y, self.width, self.height)
+    font_size: '16sp'
+    color: self.font_color
+
+<BigSpinnerOption@SpinnerOption>:
+    background_normal: ''
+    background_color: color_orange if self.state == 'down' else color_white
+    background_down: ''
+    canvas.before:
+        Color:
+            rgba: color_white
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    canvas.after:
+        Color:
+            rgba: color_gray
+        Line:
+            width: 1.
+            rectangle: (self.x, self.y, self.width, self.height)
+
+    color: color_black
+    text_size:self.size
+    halign:'left'
+    valign:'middle'
+    padding_x: 10
+
+<BigSpinner@Spinner>:
+    background_normal: ''
+    background_color: 0,0,0,0
+    #color: self.back_color
+    #background_color: color_button if self.state == 'down' else color_button_pressed
+    canvas.before:
+        Color:
+            rgba: color_gray
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    color: color_black
+    option_cls: Factory.get("BigSpinnerOption")
+    text_size:self.size
+    halign:'left'
+    valign:'middle'
+    padding_x: 10
+
+<TitleScreen>
+    on_enter: root.start()
+    GridLayout:
+        cols: 1
+        rows: 4
+        padding: [pad_x, pad_y, pad_x, pad_y]
+        spacing: [0, pad_y//2]
+        canvas.before:
+            Color:
+                rgb: 0.078, 0.129, 0.239
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        GridLayout:
+            cols: 3
+            padding: [0, 0, 0, pad_y]
+            row_default_height: pad_y
+            GridLayout:
+                rows: 2
+                size_hint_x: None
+                width: pad_y*2
+                height: pad_y*2
+                Image:
+                    source: 'Icons/logo_1.png'
+                    size: self.texture_size
+                Label:
+                    text: ''
+            GridLayout:
+                rows: 2
+                height: pad_y*2
+                Label:
+                    text_size:self.size
+                    halign:'left'
+                    valign:'middle'
+                    text: ' Paced Auditory Serial Addition Task'
+                    font_size: '16sp'
+                Label:
+                    text: ''
+            InfoButton:
+                size_hint_x: None
+                width: pad_y*2
+                height: pad_y*2
+                #text: 'i'
+                on_release: root.open_info()
+        Label:
+            id: lab_title
+            text_size:self.size
+            halign:'center'
+            valign:'top'
+            font_name: 'Fonts/Bungee-Regular' #'Fonts/RedRose-Regular'
+            text: 'PASAT'
+            font_size: '60sp'
+        BigButton:
+            text: 'Start'
+            on_release: root.on_begin() #root.manager.current = 'menu'
+            #back_color: (0.988, 0.639, 0.067, 1)
+        Label:
+            text_size:self.size
+            halign:'center'
+            valign:'bottom'
+            text: '\u00A9 2020 - all rights with Marcin Le\u015Bniak'
+            font_size: '10sp'
+
+<MenuScreen>:
+    on_enter: root.start()
+    GridLayout:
+        cols: 1
+        rows: 4
+        padding: [pad_x, pad_y, pad_x, pad_y]
+        spacing: [0, pad_y//2]
+        canvas.before:
+            Color:
+                rgb: 0.078, 0.129, 0.239
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        GridLayout:
+            cols: 2
+            padding: [0, 0, 0, pad_y]
+            row_default_height: 40
+            GridLayout:
+                rows: 2
+                size_hint_x: None
+                width: pad_y*2
+                height: pad_y*2
+                Image:
+                    source: 'Icons/logo_1.png'
+                    size: self.texture_size
+                Label:
+                    text: ''
+            GridLayout:
+                rows: 2
+                height: pad_y*2
+                Label:
+                    text_size:self.size
+                    halign:'left'
+                    valign:'middle'
+                    text: ' Menu'
+                    font_size: '16sp'
+                Label:
+                    text: ''
+        GridLayout:
+            cols: 2
+            spacing: [pad_x, 0]
+            MainButton:
+                text: 'Wybierz osob\u0119 z bazy'
+                on_release: root.manager.current = 'db'
+            MainButton:
+                text: 'Nowa osoba badana'
+                on_release: root.manager.current = 'subject'
+        GridLayout:
+            cols: 2
+            spacing: [pad_x, 0]
+            MainButton:
+                text: 'Stw\u00F3rz nowy projekt'
+                on_release: root.manager.current = 'project'
+            MainButton:
+                text: 'Wyniki'
+                on_release: root.manager.current = 'results'
+        Label:
+            text_size:self.size
+            halign:'center'
+            valign:'bottom'
+            text: '\u00A9 2020 - all rights with Marcin Le\u015Bniak'
+            font_size: '10sp'
+
+<DBScreen>:
+    id: db
+    on_enter: root.start(app.conn)
+    GridLayout:
+        rows: 3
+        padding: [pad_x, pad_y, pad_x, pad_y]
+        #spacing: [0, pad_y//2]
+        canvas.before:
+            Color:
+                rgb: 0.078, 0.129, 0.239
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        GridLayout:
+            cols: 3
+            padding: [0, 0, 0, pad_y*2]
+            row_default_height: pad_y
+            GridLayout:
+                rows: 2
+                size_hint_x: None
+                width: pad_y*2
+                height: pad_y*2
+                Image:
+                    source: 'Icons/logo_1.png'
+                    size: self.texture_size
+                Label:
+                    text: ''
+            GridLayout:
+                rows: 2
+                height: pad_y*2
+                Label:
+                    text_size:self.size
+                    halign:'left'
+                    valign:'middle'
+                    text: ' Baza danych'
+                    font_size: '16sp'
+                Label:
+                    text: ''
+            ExitButton:
+                size_hint_x: None
+                width: self.height
+                on_release: root.manager.current = 'menu'
+        GridLayout:
+            cols: 2
+            #padding: [40, 00, 40, 0]
+            spacing: [pad_x//2, pad_y//2]
+            GridLayout:
+                rows: 4
+                Label:
+                    text: 'Zapisane OB'
+                BigSpinner:
+                    id: spinner_db
+                    text: 'Wybierz OB'
+                    #values: "Text1","Text2","Text3","Text4","Text5","Text6","Text7","Text8","Text9","Text10","Text11","Text12"
+                    on_text: root.on_spinner_select(spinner_db.text)
+                Label:
+                    text: 'Filtruj wg projektu'
+                BigSpinner:
+                    id: spinner_proj
+                    text: 'Wybierz projekt'
+                    on_text: root.on_spinner_proj_select(app.conn, spinner_proj.text)
+            GridLayout:
+                rows: 2
+                spacing: [pad_x//2, pad_y//2]
+                MainButton:
+                    text: 'Edytuj dane'
+                    on_release: root.on_edit(spinner_db.text) #manager.current = 'update_subject'
+                MainButton:
+                    text: 'Rozpocznij badanie'
+                    on_release: root.on_begin(spinner_db.text, spinner_proj.text) #root.manager.current = 'settings'
+        Label:
+            text_size:self.size
+            halign:'center'
+            valign:'bottom'
+            text: '\u00A9 2020 - all rights with Marcin Le\u015Bniak'
+            font_size: '10sp'
+
+<ProjectScreen>:
+    on_enter: root.start()
+    GridLayout:
+        rows: 3
+        padding: [pad_x, pad_y, pad_x, pad_y]
+        #spacing: [0, pad_y//2]
+        canvas.before:
+            Color:
+                rgb: 0.078, 0.129, 0.239
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        GridLayout:
+            cols: 3
+            padding: [0, 0, 0, pad_y*2]
+            row_default_height: pad_y
+            GridLayout:
+                rows: 2
+                size_hint_x: None
+                width: pad_y*2
+                height: pad_y*2
+                Image:
+                    source: 'Icons/logo_1.png'
+                    size: self.texture_size
+                Label:
+                    text: ''
+            GridLayout:
+                rows: 2
+                height: pad_y*2
+                Label:
+                    text_size:self.size
+                    halign:'left'
+                    valign:'middle'
+                    text: ' Nowy projekt'
+                    font_size: '16sp'
+                Label:
+                    text: ''
+            ExitButton:
+                size_hint_x: None
+                width: self.height
+                #text: 'Wr\u00F3\u0107'
+                on_release: root.manager.current = 'menu'
+        GridLayout:
+            cols: 2
+            padding: [pad_x, 0, pad_x, 0]
+            GridLayout:
+                rows: 2
+                cols: 2
+                padding: [0, 0, pad_x, 0]
+                spacing: [0, pad_y//2]
+                Label:
+                    id: lab_name
+                    name: 'lab_name'
+                    text: 'Nazwa():'
+                    text_size:self.size
+                    halign:'left'
+                    valign:'middle'
+                    size_hint_x: None
+                    width: window_width//8
+                TextInput:
+                    id: input_project_name
+                    name: 'input_project_name'
+                    multiline: False
+                    #on_text: root.input_project_name(input_project_name.text)
+                    on_text: root.input(input_project_name.name, lab_name.name, 12)
+                Label:
+                    id: lab_desc
+                    name: 'lab_desc'
+                    text: 'Opis():'
+                    text_size:self.size
+                    halign:'left'
+                    valign:'middle'
+                    size_hint_x: None
+                    width: window_width//8
+                TextInput:
+                    id: input_project_desc
+                    name: 'input_project_desc'
+                    multiline: True
+                    #on_text: root.input_project_desc(input_project_desc.text)
+                    on_text: root.input(input_project_desc.name, lab_desc.name, 40)
+            GridLayout:
+                rows: 2
+                #padding: [0, 0, pad_x, 0]
+                spacing: [0, pad_y//2]
+                MainButton:
+                    text: 'Zapisz projekt'
+                    on_release: root.save_project(app.conn, input_project_name.text, input_project_desc.text)
+                MainButton:
+                    text: 'Zapisz projekt i wprowad\u017A now\u0105 OB'
+                    #on_release: root.manager.current = 'settings'
+        Label:
+            text_size:self.size
+            halign:'center'
+            valign:'bottom'
+            text: '\u00A9 2020 - all rights with Marcin Le\u015Bniak'
+            font_size: '10sp'
+
+<ResultsScreen>:
+    on_enter: root.start()
+    GridLayout:
+        rows: 3
+        padding: [pad_x, pad_y, pad_x, pad_y]
+        #spacing: [0, pad_y//2]
+        canvas.before:
+            Color:
+                rgb: 0.078, 0.129, 0.239
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        GridLayout:
+            cols: 3
+            padding: [0, 0, 0, pad_y*2]
+            row_default_height: pad_y
+            GridLayout:
+                rows: 2
+                size_hint_x: None
+                width: pad_y*2
+                height: pad_y*2
+                Image:
+                    source: 'Icons/logo_1.png'
+                    size: self.texture_size
+                Label:
+                    text: ''
+            GridLayout:
+                rows: 2
+                height: pad_y*2
+                Label:
+                    text_size:self.size
+                    halign:'left'
+                    valign:'middle'
+                    text: ' Wyniki'
+                    font_size: '16sp'
+                Label:
+                    text: ''
+            ExitButton:
+                size_hint_x: None
+                width: self.height
+                #text: 'Wr\u00F3\u0107'
+                on_release: root.manager.current = 'menu'
+        MainButton:
+            text: 'Kopia zapasowa bazy'
+            on_release: root.make_db_backup()
+        Label:
+            text_size:self.size
+            halign:'center'
+            valign:'bottom'
+            text: '\u00A9 2020 - all rights with Marcin Le\u015Bniak'
+            font_size: '10sp'
+
+<NewSubjectScreen>:
+    on_enter: root.start(app.conn)
+    GridLayout:
+        rows: 3
+        padding: [pad_x, pad_y, pad_x, pad_y]
+        #spacing: [0, pad_y//2]
+        canvas.before:
+            Color:
+                rgb: 0.078, 0.129, 0.239
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        GridLayout:
+            cols: 3
+            padding: [0, 0, 0, pad_y*2]
+            row_default_height: pad_y
+            GridLayout:
+                rows: 2
+                size_hint_x: None
+                width: pad_y*2
+                height: pad_y*2
+                Image:
+                    source: 'Icons/logo_1.png'
+                    size: self.texture_size
+                Label:
+                    text: ''
+            GridLayout:
+                rows: 2
+                height: pad_y*2
+                Label:
+                    text_size:self.size
+                    halign:'left'
+                    valign:'middle'
+                    text: ' Nowa osoba badana'
+                    font_size: '16sp'
+                Label:
+                    text: ''
+            ExitButton:
+                size_hint_x: None
+                width: self.height
+                #text: 'Wr\u00F3\u0107'
+                on_release: root.manager.current = 'menu'
+        GridLayout:
+            cols: 2
+            GridLayout:
+                rows: 4
+                cols: 2
+                padding: [pad_x, 0, pad_x, 0]
+                Label:
+                    id: lab_code
+                    name: 'lab_code'
+                    text: 'Kod():'
+                    text_size:self.size
+                    halign:'left'
+                    valign:'middle'
+                TextInput:
+                    id: input_code
+                    name: 'input_code'
+                    on_text: root.input(input_code.name, lab_code.name, 12)
+                Label:
+                    id: lab_birth
+                    name: 'lab_birth'
+                    text: 'Data urodzenia():'
+                    text_size:self.size
+                    halign:'left'
+                    valign:'middle'
+                TextInput:
+                    id: input_birth
+                    name: 'input_birth'
+                    hint_text:'dd-mm-rrrr'
+                    on_text: root.input(input_birth.name, lab_birth.name, 10)
+                Label:
+                    id: lab_sex
+                    name: 'lab_sex'
+                    text: 'P\u0142e\u0107():'
+                    text_size:self.size
+                    halign:'left'
+                    valign:'middle'
+                TextInput:
+                    id: input_sex
+                    name: 'input_sex'
+                    hint_text:'k/m'
+                    on_text: root.input(input_sex.name, lab_sex.name, 1)
+                Label:
+                    text: 'Projekt: '
+                    text_size:self.size
+                    halign:'left'
+                    valign:'middle'
+                BigSpinner:
+                    id: spinner_proj
+                    text: 'Wybierz projekt'
+                    #values: 'projekt 1', 'projekt 2'
+                    on_text: root.on_spinner_proj_select(spinner_proj.text)
+            GridLayout:
+                rows: 2
+                padding: [0, 0, pad_x, 0]
+                spacing: [0, pad_y//2]
+                MainButton:
+                    text: 'Zapisz do bazy'
+                    on_release: root.save_subject(app.conn, input_code.text, input_birth.text, input_sex.text, spinner_proj.text, 0)
+                MainButton:
+                    text: 'Zapisz do bazy i rozpocznij badanie'
+                    on_release: root.save_subject(app.conn, input_code.text, input_birth.text, input_sex.text, spinner_proj.text, 1) #root.manager.current = 'settings'
+        Label:
+            text_size:self.size
+            halign:'center'
+            valign:'bottom'
+            text: '\u00A9 2020 - all rights with Marcin Le\u015Bniak'
+            font_size: '10sp'
+
+<UpdateSubjectScreen>:
+    id: update_subject
+    on_enter: root.start(app.conn)
+    GridLayout:
+        rows: 3
+        padding: [pad_x, pad_y, pad_x, pad_y]
+        #spacing: [0, pad_y//2]
+        canvas.before:
+            Color:
+                rgb: 0.078, 0.129, 0.239
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        GridLayout:
+            cols: 3
+            padding: [0, 0, 0, pad_y*2]
+            row_default_height: pad_y
+            GridLayout:
+                rows: 2
+                size_hint_x: None
+                width: pad_y*2
+                height: pad_y*2
+                Image:
+                    source: 'Icons/logo_1.png'
+                    size: self.texture_size
+                Label:
+                    text: ''
+            GridLayout:
+                rows: 2
+                height: pad_y*2
+                Label:
+                    text_size:self.size
+                    halign:'left'
+                    valign:'middle'
+                    text: ' Aktualizacja osoby badanej'
+                    font_size: '16sp'
+                Label:
+                    text: ''
+            ExitButton:
+                size_hint_x: None
+                width: self.height
+                #text: 'Wr\u00F3\u0107'
+                on_release: root.manager.current = 'db'
+        GridLayout:
+            cols: 2
+            GridLayout:
+                rows: 4
+                cols: 2
+                padding: [pad_x, 0, pad_x, 0]
+                #spacing: [pad_x//2, 0]
+                Label:
+                    id: lab_code
+                    name: 'lab_code'
+                    text: 'Kod():'
+                    text_size:self.size
+                    halign:'left'
+                    valign:'middle'
+                TextInput:
+                    id: input_code
+                    name: 'input_code'
+                    on_text: root.input(input_code.name, lab_code.name, 12)
+                Label:
+                    id: lab_birth
+                    name: 'lab_birth'
+                    text: 'Data urodzenia():'
+                    text_size:self.size
+                    halign:'left'
+                    valign:'middle'
+                TextInput:
+                    id: input_birth
+                    name: 'input_birth'
+                    hint_text:'dd-mm-rrrr'
+                    on_text: root.input(input_birth.name, lab_birth.name, 10)
+                Label:
+                    id: lab_sex
+                    name: 'lab_sex'
+                    text: 'P\u0142e\u0107():'
+                    text_size:self.size
+                    halign:'left'
+                    valign:'middle'
+                TextInput:
+                    id: input_sex
+                    name: 'input_sex'
+                    hint_text:'k/m'
+                    on_text: root.input(input_sex.name, lab_sex.name, 1)
+                Label:
+                    text: 'Projekt: '
+                    text_size:self.size
+                    halign:'left'
+                    valign:'middle'
+                BigSpinner:
+                    id: spinner_proj
+                    text: 'Wybierz projekt'
+                    #values: 'projekt 1', 'projekt 2'
+                    on_text: root.on_spinner_proj_select(spinner_proj.text)
+            GridLayout:
+                rows: 1
+                padding: [0, 0, pad_x, 0]
+                spacing: [0, pad_y//2]
+                MainButton:
+                    text: 'Zapisz do bazy'
+                    on_release: root.update_subject(app.conn, input_code.text, input_birth.text, input_sex.text, spinner_proj.text)
+        Label:
+            text_size:self.size
+            halign:'center'
+            valign:'bottom'
+            text: '\u00A9 2020 - all rights with Marcin Le\u015Bniak'
+            font_size: '10sp'
+<SettingsScreen>:
+    on_enter: root.start()
+    GridLayout:
+        rows: 3
+        padding: [pad_x, pad_y, pad_x, pad_y]
+        #spacing: [0, pad_y//2]
+        canvas.before:
+            Color:
+                rgb: 0.078, 0.129, 0.239
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        GridLayout:
+            cols: 3
+            padding: [0, 0, 0, pad_y*2]
+            row_default_height: pad_y
+            GridLayout:
+                rows: 2
+                size_hint_x: None
+                width: pad_y*2
+                height: pad_y*2
+                Image:
+                    source: 'Icons/logo_1.png'
+                    size: self.texture_size
+                Label:
+                    text: ''
+            GridLayout:
+                rows: 2
+                height: pad_y*2
+                Label:
+                    text_size:self.size
+                    halign:'left'
+                    valign:'middle'
+                    text: ' Parametry badania'
+                    font_size: '16sp'
+                Label:
+                    text: ''
+            ExitButton:
+                size_hint_x: None
+                width: self.height
+                #text: 'Wr\u00F3\u0107'
+                on_release: root.manager.current = 'db'
+        GridLayout:
+            #rows: 2
+            cols: 2
+            padding: [0, pad_y, 0, pad_y]
+            spacing: [pad_x//2, 0]
+            GridLayout:
+                rows: 2
+                Label:
+                    text: 'Zestaw bod\u017Ac\u00F3w'
+                BigSpinner:
+                    id: spinner_settings
+                    text: 'Wybierz zestaw'
+                    #values: "Text1","Text2","Text3","Text4","Text5","Text6","Text7","Text8","Text9","Text10","Text11","Text12"
+                    on_text: root.on_spinner_set_select(spinner_settings.text)
+            GridLayout:
+                rows: 1
+                MainButton:
+                    id: but_start_test
+                    text: 'Rozpocznij'
+                    on_release: root.on_begin() #root.manager.current = 'test'
+        Label:
+            text_size:self.size
+            halign:'center'
+            valign:'bottom'
+            text: '\u00A9 2020 - all rights with Marcin Le\u015Bniak'
+            font_size: '10sp'
+
+<TestScreen>:
+    on_pre_enter: root.preload(app.ob_id, app.setting_name)
+    GridLayout:
+        rows: 3
+        padding: [pad_x, pad_y, pad_x, pad_y]
+        spacing: [0, pad_y]
+        GridLayout:
+            cols: 3
+            spacing: [pad_x, 0]
+            Label:
+                text: ' '
+                size_hint_x: None
+                size_hint_y: None
+                height: but_start.height #pad_y*2
+                width: self.height
+            TestButton:
+                id: but_start
+                text: 'START'
+                font_size: '40sp'
+                size_hint_y: None
+                height: pad_y*2
+                visible: True
+                opacity: 1 if self.visible else 0
+                disabled: not self.visible
+                on_release: root.start()
+            EscapeButton:
+                id: but_esc
+                text:'X'
+                font_size: '20sp'
+                size_hint_x: None
+                size_hint_y: None
+                height: but_start.height #pad_y*2
+                width: self.height
+                on_press: root.escape_test()
+        GridLayout:
+            cols: 4
+            #rows: 3
+            spacing: [pad_x, 0]
+            TestButton:
+                id: but_1
+                name: 'but_1'
+                text: ''
+                bold: False
+                font_size: '120sp'
+                visible: True
+                opacity: 1 if self.visible else 0
+                disabled: not self.visible
+                on_press: root.test_but_press(self.name)
+            TestButton:
+                id: but_2
+                name: 'but_2'
+                text: ''
+                bold: False
+                font_size: '120sp'
+                visible: True
+                opacity: 1 if self.visible else 0
+                disabled: not self.visible
+                on_press: root.test_but_press(self.name)
+            TestButton:
+                id: but_3
+                name: 'but_3'
+                text: ''
+                bold: False
+                font_size: '120sp'
+                visible: True
+                opacity: 1 if self.visible else 0
+                disabled: not self.visible
+                on_press: root.test_but_press(self.name)
+            TestButton:
+                id: but_4
+                name: 'but_4'
+                text: ''
+                bold: False
+                font_size: '120sp'
+                visible: True
+                opacity: 1 if self.visible else 0
+                disabled: not self.visible
+                on_press: root.test_but_press(self.name)
+        Label:
+            id: lab_bottom
+            text: ' '
+            font_size: '60sp'
+            size_hint_y: None
+            height: 80
+
+<CustomPopup@Popup>:
+    title: 'Uwaga!'
+    auto_dismiss: False
+    size_hint: None,None
+    size: window_width//2, window_height//2
+    background_normal: ''
+    #background_color: (0.898, 0.898, 0.898, 1)
+    background_color: (0.898, 0.898, 0.898, 0.8)
+    color: color_black
+    GridLayout:
+        id: grid_popup
+        rows: 2
+        padding: [pad_x, pad_y, pad_x, pad_y]
+        #spacing: [0, pad_y//2]
+        Label:
+            id: label_popup
+            text: 'Nie zapisano. Uzupe\u0142nij dane w formularzu.'
+        Button:
+            background_normal: ''
+            background_color: color_gray
+            bold: False
+            font_size: '14sp'
+            color: color_black
+            text: 'Zamknij okno'
+            on_release: root.dismiss()
+
